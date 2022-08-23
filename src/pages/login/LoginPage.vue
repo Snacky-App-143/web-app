@@ -42,12 +42,14 @@ import SnackyPasswordInput from 'src/components/common/SnackyPasswordInput.vue';
 import useVuelidate from '@vuelidate/core';
 import useForm from 'src/composables/useForm';
 import useAuthentication from 'src/composables/useAuthentication';
+import { useAppStore } from 'src/stores/app';
 
 const {
   rules: { email, required },
 } = useForm();
 
 const { loginWithEmailPassword } = useAuthentication();
+const { setPageTitle } = useAppStore();
 
 const form = ref({
   email: '',
@@ -64,6 +66,8 @@ const v$ = useVuelidate(rules, form);
 function submit() {
   loginWithEmailPassword(form.value.email, form.value.password);
 }
+
+setPageTitle('page-title.login-page');
 </script>
 
 <style lang="scss" scoped>

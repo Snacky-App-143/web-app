@@ -7,11 +7,22 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
+import { useMeta } from 'quasar';
+import { MetaOptions } from 'quasar/dist/types/meta';
+import { computed } from 'vue';
+import useUtility from './composables/useUtility';
 import { useAppStore } from './stores/app';
 
 const appStore = useAppStore();
 
-const { isAuthenticating } = storeToRefs(appStore);
+const { isAuthenticating, pageTitle } = storeToRefs(appStore);
+const { t } = useUtility();
+
+const metaData = computed<MetaOptions>(() => ({
+  title: t(pageTitle.value),
+}));
+
+useMeta(metaData.value);
 </script>
 
 <style lang="scss" scoped>

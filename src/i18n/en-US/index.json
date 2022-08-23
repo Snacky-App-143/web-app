@@ -1,4 +1,5 @@
 {
+  "page-title.home-page": "Home",
   "validation-messages.email.required": "Please provide your email.",
   "validation-messages.email.email": "Your email is not invalid.",
   "validation-messages.password.required": "Please provide your password.",
