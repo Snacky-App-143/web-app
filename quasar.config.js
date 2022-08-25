@@ -32,8 +32,14 @@ module.exports = configure(function (/* ctx */) {
     boot: [
       'i18n',
       'axios',
-      'firebase',
-      'firebase-auth',
+      {
+        path: 'firebase',
+        server: false
+      },
+      {
+        path: 'firebase-auth',
+        server: false
+      },
       {
         path: 'gg-analytics',
         server: false,

@@ -48,7 +48,7 @@ const {
   rules: { email, required },
 } = useForm();
 
-const { loginWithEmailPassword } = useAuthentication();
+const { signInWithEmailAndPassword } = useAuthentication();
 const { setPageTitle } = useAppStore();
 
 const form = ref({
@@ -64,7 +64,7 @@ const rules = {
 const v$ = useVuelidate(rules, form);
 
 function submit() {
-  loginWithEmailPassword(form.value.email, form.value.password);
+  signInWithEmailAndPassword(form.value.email, form.value.password);
 }
 
 setPageTitle('page-title.login-page');

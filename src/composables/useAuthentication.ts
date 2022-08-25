@@ -1,18 +1,19 @@
-import { signInWithEmailAndPassword } from '@firebase/auth';
-import { firebaseAuth } from 'src/boot/firebase-auth';
+import useFirebaseServices from './useFirebaseServices';
 import useUtility from './useUtility';
 
 export default function () {
   const { showError } = useUtility();
-  async function loginWithEmailPassword(email: string, password: string) {
+  const { signInWithEmailAndPassword: signIn } = useFirebaseServices();
+
+  async function signInWithEmailAndPassword(email: string, password: string) {
     try {
-      await signInWithEmailAndPassword(firebaseAuth, email, password);
+      await signIn(email, password);
     } catch (error) {
       showError(error);
     }
   }
 
   return {
-    loginWithEmailPassword,
+    signInWithEmailAndPassword,
   };
 }
