@@ -1,5 +1,7 @@
 {
   "page-title.home-page": "Home",
+  "navigation-item.user-manager": "Users",
+  "page-title.user-manager": "User Manager",
   "validation-messages.email.required": "Please provide your email.",
   "validation-messages.email.email": "Your email is not invalid.",
   "validation-messages.password.required": "Please provide your password.",
