@@ -2,6 +2,8 @@
   "page-title.home-page": "Home",
   "navigation-item.user-manager": "Users",
   "page-title.user-manager": "User Manager",
+  "main-layout.sign-out": "Sign out",
+  "page-title.login-page": "Log in",
   "validation-messages.email.required": "Please provide your email.",
   "validation-messages.email.email": "Your email is not invalid.",
   "validation-messages.password.required": "Please provide your password.",

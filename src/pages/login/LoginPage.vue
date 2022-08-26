@@ -25,6 +25,7 @@
             color="primary"
             class="full-width"
             unelevated
+            :loading="isLoggingIn"
             :disable="v$.$invalid"
           >
             Login
@@ -55,6 +56,7 @@ const form = ref({
   email: '',
   password: '',
 });
+const isLoggingIn = ref(false);
 
 const rules = {
   email: { required, email },
@@ -63,8 +65,10 @@ const rules = {
 
 const v$ = useVuelidate(rules, form);
 
-function submit() {
-  signInWithEmailAndPassword(form.value.email, form.value.password);
+async function submit() {
+  isLoggingIn.value = true;
+  await signInWithEmailAndPassword(form.value.email, form.value.password);
+  isLoggingIn.value = false;
 }
 
 setPageTitle('page-title.login-page');

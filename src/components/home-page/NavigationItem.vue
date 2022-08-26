@@ -4,7 +4,7 @@
       class="navigation-item__card fit absolute"
       @click="$router.push(to)"
     >
-      <q-card-section class="flex flex-center column fit">
+      <q-card-section class="flex flex-center column fit no-wrap">
         <q-space></q-space>
         <q-icon :name="icon" color="primary" size="6rem"></q-icon>
         <q-space></q-space>
