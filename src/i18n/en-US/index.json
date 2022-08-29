@@ -6,6 +6,7 @@
   "page-title.login-page": "Log in",
   "success-notify.create-user": "New user has been created",
   "user-manager-page.create-new-user.title": "New User",
+  "user-manager-page.create-new-user.cta": "Save",
   "validation-messages.email.required": "Please provide your email.",
   "validation-messages.email.email": "Your email is not invalid.",
   "validation-messages.password.required": "Please provide your password.",

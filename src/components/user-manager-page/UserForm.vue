@@ -7,7 +7,7 @@
       size="sm"
       @click="$emit('close')"
     ></q-icon>
-    <q-form>
+    <q-form @submit.prevent="submit">
       <q-card-section class="text-h6 text-center q-pb-none">
         {{ title }}
       </q-card-section>
@@ -84,6 +84,17 @@
           @blur="v$.role.$touch"
         />
       </q-card-section>
+      <q-card-section class="q-pa-none">
+        <q-btn
+          type="submit"
+          :disable="v$.$invalid"
+          color="primary"
+          stretch
+          class="full-width"
+        >
+          {{ $t('user-manager-page.create-new-user.cta') }}
+        </q-btn>
+      </q-card-section>
     </q-form>
   </q-card>
 </template>
@@ -140,6 +151,10 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, form);
+
+function submit() {
+  // TODO: call API
+}
 </script>
 
 <style lang="scss" scoped>
