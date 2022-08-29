@@ -8,9 +8,9 @@
       @click="$emit('close')"
     ></q-icon>
     <q-form>
-      <q-card-section class="text-h6 text-center q-pb-none">{{
-        title
-      }}</q-card-section>
+      <q-card-section class="text-h6 text-center q-pb-none">
+        {{ title }}
+      </q-card-section>
       <q-card-section>
         <!-- Email -->
         <SnackyInput
