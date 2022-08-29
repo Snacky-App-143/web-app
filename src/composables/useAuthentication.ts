@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia';
-import { FirestoreSnackyUser } from 'src/models/user.model';
+import { RegisterSnackyUserBody } from 'src/models/user.model';
 import { useAuthenticationStore } from 'src/stores/authentication';
 import useFirebaseServices from './useFirebaseServices';
 
@@ -19,9 +19,8 @@ export default function () {
     await signIn(email, password);
   }
 
-  async function createUser(data: FirestoreSnackyUser) {
-    const res = await createNewUser(data);
-    setDbUser(res);
+  function createUser(data: RegisterSnackyUserBody) {
+    return createNewUser(data);
   }
 
   return {

@@ -13,6 +13,13 @@ export default function () {
     });
   }
 
+  function successNotify(opts: QNotifyCreateOptions) {
+    Notify.create({
+      ...opts,
+      color: 'positive',
+    });
+  }
+
   function showError(
     error: unknown | FirebaseError | AuthError | FirestoreError
   ) {
@@ -38,6 +45,7 @@ export default function () {
   return {
     showError,
     notify,
+    successNotify,
     t,
   };
 }

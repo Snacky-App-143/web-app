@@ -4,6 +4,8 @@
   "page-title.user-manager": "User Manager",
   "main-layout.sign-out": "Sign out",
   "page-title.login-page": "Log in",
+  "success-notify.create-user": "New user has been created",
+  "user-manager-page.create-new-user.title": "New User",
   "validation-messages.email.required": "Please provide your email.",
   "validation-messages.email.email": "Your email is not invalid.",
   "validation-messages.password.required": "Please provide your password.",

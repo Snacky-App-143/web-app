@@ -1,11 +1,10 @@
-import { setDoc, doc } from '@firebase/firestore';
-import { db } from 'src/boot/firebase';
-import { FirestoreSnackyUser } from 'src/models/user.model';
-import { Collections } from 'src/types/firestore/Collections';
+import { RegisterSnackyUserBody } from 'src/models/user.model';
+import useApiServices from './useApiServices';
 import useUtility from './useUtility';
 
 export default function () {
-  const { showError } = useUtility();
+  const { showError, successNotify, t } = useUtility();
+  const { createNewUserApi } = useApiServices();
 
   async function signInWithEmailAndPassword(email: string, password: string) {
     if (!import.meta.env.SSR) {
@@ -29,18 +28,19 @@ export default function () {
     }
   }
 
-  async function createNewUser(
-    data: FirestoreSnackyUser
-  ): Promise<FirestoreSnackyUser | null> {
+  async function createNewUser(data: RegisterSnackyUserBody) {
     try {
-      const userDoc = doc(db, Collections.USERS, data.id);
+      const response = await createNewUserApi(data);
 
-      await setDoc(userDoc, data);
+      if (response.status === 200) {
+        successNotify({
+          message: t('success-notify.create-user'),
+        });
 
-      return {
-        ...data,
-        id: userDoc.id,
-      };
+        return response.data;
+      }
+
+      return null;
     } catch (error) {
       showError(error);
       return null;
