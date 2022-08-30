@@ -3,7 +3,7 @@ import useApiServices from './useApiServices';
 import useUtility from './useUtility';
 
 export default function () {
-  const { showError, successNotify, t } = useUtility();
+  const { showError } = useUtility();
   const { createNewUserApi } = useApiServices();
 
   async function signInWithEmailAndPassword(email: string, password: string) {
@@ -33,10 +33,6 @@ export default function () {
       const response = await createNewUserApi(data);
 
       if (response.status === 200) {
-        successNotify({
-          message: t('success-notify.create-user'),
-        });
-
         return response.data;
       }
 

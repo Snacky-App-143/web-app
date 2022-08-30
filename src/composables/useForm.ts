@@ -1,4 +1,9 @@
-import { createI18nMessage, required, email } from '@vuelidate/validators';
+import {
+  createI18nMessage,
+  required,
+  email,
+  sameAs,
+} from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 
 export default function () {
@@ -11,6 +16,9 @@ export default function () {
     rules: {
       required: withI18nMessage(required),
       email: withI18nMessage(email),
+      sameAs: withI18nMessage(sameAs, {
+        withArguments: true,
+      }),
     },
   };
 }

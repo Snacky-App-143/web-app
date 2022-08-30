@@ -29,3 +29,7 @@ export interface FirestoreSnackyUser extends SnackyUser {
 export interface RegisterSnackyUserBody extends FirestoreSnackyUser {
   password: string;
 }
+
+export interface FeRegisterSnackyUserBody extends RegisterSnackyUserBody {
+  confirmPassword: string;
+}
