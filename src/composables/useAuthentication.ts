@@ -6,11 +6,11 @@ import useFirebaseServices from './useFirebaseServices';
 export default function () {
   const authStore = useAuthenticationStore();
 
-  const { setDbUser } = authStore;
   const {
     signInWithEmailAndPassword: signIn,
     signOut,
     createNewUser,
+    updateUserInfo,
   } = useFirebaseServices();
 
   const authState = storeToRefs(authStore);
@@ -29,5 +29,6 @@ export default function () {
     signOut,
     signInWithEmailAndPassword,
     createUser,
+    updateUserInfo,
   };
 }

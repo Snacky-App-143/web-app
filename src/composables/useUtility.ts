@@ -2,16 +2,19 @@ import { AuthError } from '@firebase/auth';
 import { FirestoreError } from '@firebase/firestore';
 import { FirebaseError } from '@firebase/util';
 import { Notify, QNotifyCreateOptions } from 'quasar';
+import { dialog, notify, showError } from 'src/modules/helpers';
 import { useI18n } from 'vue-i18n';
+
+type ConfirmDialogOptions = {
+  title: string;
+  message: string;
+  ok: string;
+  cancel: string;
+  color: string;
+};
 
 export default function () {
   const { t } = useI18n();
-
-  function notify(opts: QNotifyCreateOptions) {
-    Notify.create({
-      ...opts,
-    });
-  }
 
   function successNotify(opts: QNotifyCreateOptions) {
     Notify.create({
@@ -20,32 +23,51 @@ export default function () {
     });
   }
 
-  function showError(
+  function showErrorNotify(
     error: unknown | FirebaseError | AuthError | FirestoreError
   ) {
     if (error instanceof FirestoreError) {
-      notify({
-        icon: 'mdi-information',
-        color: 'negative',
-        message: t(`firestore-error.${error.code}`),
-      });
+      showError(error, t(`firestore-error.${error.code}`));
+
       return;
     }
 
     if (error instanceof FirebaseError) {
-      notify({
-        icon: 'mdi-information',
-        color: 'negative',
-        message: t(`firebase-error.${error.code}`),
-      });
+      showError(error, t(`firebase-error.${error.code}`));
+
       return;
     }
+
+    showError(error, t('runtime-error'));
+  }
+
+  function confirm(data?: Partial<ConfirmDialogOptions>) {
+    const defaultOptions: ConfirmDialogOptions = {
+      title: t('confirmation-dialog.title'),
+      message: t('confirmation-dialog.message'),
+      ok: t('confirmation-dialog.ok'),
+      cancel: t('confirmation-dialog.cancel'),
+      color: 'primary',
+    };
+
+    const { title, message, ok, cancel, color } = {
+      ...defaultOptions,
+      ...data,
+    };
+    return dialog({
+      title,
+      message,
+      ok,
+      cancel,
+      color,
+    });
   }
 
   return {
-    showError,
+    showError: showErrorNotify,
     notify,
     successNotify,
     t,
+    confirm,
   };
 }

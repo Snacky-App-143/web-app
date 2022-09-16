@@ -3,6 +3,7 @@ import {
   required,
   email,
   sameAs,
+  requiredIf,
 } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 
@@ -17,6 +18,9 @@ export default function () {
       required: withI18nMessage(required),
       email: withI18nMessage(email),
       sameAs: withI18nMessage(sameAs, {
+        withArguments: true,
+      }),
+      requiredIf: withI18nMessage(requiredIf, {
         withArguments: true,
       }),
     },

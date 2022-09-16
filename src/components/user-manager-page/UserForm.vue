@@ -20,11 +20,12 @@
               :label="$t('user-form.email.label')"
               :error="v$.email.$error"
               :error-message="v$.email.$errors[0]?.$message.toString()"
+              :readonly="isUpdating"
               @blur="v$.email.$touch"
             />
           </div>
 
-          <div class="col-12">
+          <div v-if="!isUpdating" class="col-12">
             <!-- Password -->
             <SnackyPasswordInput
               v-model="form.password"
@@ -35,7 +36,7 @@
             />
           </div>
 
-          <div class="col-12">
+          <div v-if="!isUpdating" class="col-12">
             <!-- Confirm password -->
             <SnackyPasswordInput
               v-model="form.confirmPassword"
@@ -154,6 +155,7 @@ import useForm from 'src/composables/useForm';
 import useUtility from 'src/composables/useUtility';
 import {
   FeRegisterSnackyUserBody,
+  FirestoreSnackyUser,
   RegisterSnackyUserBody,
   UserGenders,
   UserRoles,
@@ -167,17 +169,18 @@ interface Props {
   title?: string;
   isUpdating?: boolean;
   isLoading?: boolean;
+  userInfo?: FirestoreSnackyUser;
 }
 interface Emits {
   (e: 'close'): void;
   (e: 'submit', value: RegisterSnackyUserBody): void;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const {
-  rules: { required, email, sameAs },
+  rules: { required, email, sameAs, requiredIf },
 } = useForm();
 const { t } = useUtility();
 
@@ -235,8 +238,11 @@ const rules = computed(() => ({
   gender: { required },
   lastName: { required },
   passportId: { required },
-  password: { required },
-  confirmPassword: { required, sameAsPassword: sameAs(form.value.password) },
+  password: { required: requiredIf(!props.isUpdating) },
+  confirmPassword: {
+    required: requiredIf(!props.isUpdating),
+    sameAsPassword: sameAs(form.value.password),
+  },
   phoneNumber: { required },
   role: { required },
 }));
@@ -256,6 +262,13 @@ function submit() {
     phoneNumber: form.value.phoneNumber,
     role: form.value.role,
   });
+}
+
+if (props.userInfo) {
+  form.value = {
+    ...form.value,
+    ...props.userInfo,
+  };
 }
 </script>
 

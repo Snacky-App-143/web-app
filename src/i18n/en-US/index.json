@@ -147,5 +147,14 @@
   "firestore-error.internal": "",
   "firestore-error.unavailable": "",
   "firestore-error.data-loss": "",
-  "firestore-error.unauthenticated": "Unauthorized"
+  "firestore-error.unauthenticated": "Unauthorized",
+  "runtime-error": "Error",
+  "user-manager-page.update-user.title": "Update user",
+  "update-user-dialog.succeed": "User has been updated",
+  "confirmation-dialog.title": "Confirm",
+  "confirmation-dialog.message": "Are you sure?",
+  "confirmation-dialog.ok": "Yes",
+  "user-manager-page.update-user.delete-confirmation": "This user will be delete forever. Are you sure?",
+  "confirmation-dialog.cancel": "No",
+  "user-manager-page.update-user.delete-success": "User has been deleted"
 }

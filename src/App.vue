@@ -1,7 +1,9 @@
 <template>
-  <div v-if="isAuthenticating" class="app__loader flex flex-center">
-    <q-spinner color="primary" size="4rem"></q-spinner>
-  </div>
+  <q-no-ssr v-if="isAuthenticating">
+    <div class="app__loader flex flex-center full-width">
+      <q-spinner color="primary" size="4rem"></q-spinner>
+    </div>
+  </q-no-ssr>
   <router-view v-else />
 </template>
 

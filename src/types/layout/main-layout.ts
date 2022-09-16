@@ -1,4 +1,5 @@
 export enum MainLayoutSlot {
-  middleToolbar = 'middle-tool-bar',
+  middleToolbar = 'middle-toolbar',
   extraBtn = 'extra-btn',
+  prependExtraBtn = 'prepend-extra-btn',
 }

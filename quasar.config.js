@@ -44,7 +44,7 @@ module.exports = configure(function (/* ctx */) {
         path: 'gg-analytics',
         server: false,
       },
-      'guards'
+      'utilities'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -126,13 +126,14 @@ module.exports = configure(function (/* ctx */) {
       // Quasar plugins
       plugins: [
         'Notify',
-        'Meta'
+        'Meta',
+        'Dialog'
       ]
     },
 
     // animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: [],
+    animations: 'all',
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#sourcefiles
     // sourceFiles: {

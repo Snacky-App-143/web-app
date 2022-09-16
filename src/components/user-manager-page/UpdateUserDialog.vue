@@ -1,8 +1,10 @@
 <template>
   <q-dialog v-bind="$attrs" position="bottom">
     <UserForm
-      :title="$t('user-manager-page.create-new-user.title')"
+      :title="$t('user-manager-page.update-user.title')"
       :is-loading="isLoading"
+      is-updating
+      :user-info="userInfo"
       @submit="submit"
       @close="toggle(false)"
     />
@@ -12,18 +14,25 @@
 <script setup lang="ts">
 import useAuthentication from 'src/composables/useAuthentication';
 import useUtility from 'src/composables/useUtility';
-import { RegisterSnackyUserBody } from 'src/models/user.model';
+import {
+  FirestoreSnackyUser,
+  RegisterSnackyUserBody,
+} from 'src/models/user.model';
 import { ref } from 'vue';
 import UserForm from './UserForm.vue';
 
 interface Emits {
   (e: 'update:model-value', value: boolean): void;
-  (e: 'created'): void;
+  (e: 'updated'): void;
 }
 
+interface Props {
+  userInfo: FirestoreSnackyUser;
+}
+defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const { createUser } = useAuthentication();
+const { updateUserInfo } = useAuthentication();
 const { successNotify, t } = useUtility();
 
 const isLoading = ref(false);
@@ -34,13 +43,15 @@ function toggle(value: boolean) {
 
 async function submit(data: RegisterSnackyUserBody) {
   isLoading.value = true;
-  const res = await createUser(data).finally(() => (isLoading.value = false));
+  const res = await updateUserInfo(data).finally(
+    () => (isLoading.value = false)
+  );
   if (res) {
     successNotify({
-      message: t('create-new-user-dialog.succeed'),
+      message: t('update-user-dialog.succeed'),
     });
     toggle(false);
-    emit('created');
+    emit('updated');
   }
 }
 </script>

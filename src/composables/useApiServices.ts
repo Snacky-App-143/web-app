@@ -9,7 +9,12 @@ export default function () {
     return api.post<FirestoreSnackyUser>('/users', data);
   }
 
+  function deleteUserApi(uid: string) {
+    return api.delete<null>(`/users/${uid}`);
+  }
+
   return {
     createNewUserApi,
+    deleteUserApi,
   };
 }

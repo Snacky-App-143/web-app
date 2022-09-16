@@ -1,10 +1,16 @@
-import { RegisterSnackyUserBody } from 'src/models/user.model';
+import { collection, doc, getDocs, updateDoc } from '@firebase/firestore';
+import { db } from 'src/boot/firebase';
+import {
+  FirestoreSnackyUser,
+  RegisterSnackyUserBody,
+} from 'src/models/user.model';
+import { Collections } from 'src/types/firestore/Collections';
 import useApiServices from './useApiServices';
 import useUtility from './useUtility';
 
 export default function () {
   const { showError } = useUtility();
-  const { createNewUserApi } = useApiServices();
+  const { createNewUserApi, deleteUserApi } = useApiServices();
 
   async function signInWithEmailAndPassword(email: string, password: string) {
     if (!import.meta.env.SSR) {
@@ -43,9 +49,48 @@ export default function () {
     }
   }
 
+  async function deleteUser(uid: string) {
+    try {
+      const response = await deleteUserApi(uid);
+
+      if (response.status === 200) {
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      showError(error);
+      return false;
+    }
+  }
+
+  async function getUserList() {
+    try {
+      const userCollection = collection(db, Collections.USERS);
+      return (await getDocs(userCollection)).docs.map(
+        (doc) => doc.data() as FirestoreSnackyUser
+      );
+    } catch (error) {
+      showError(error);
+    }
+  }
+
+  async function updateUserInfo(data: FirestoreSnackyUser) {
+    try {
+      const userCollection = doc(db, `${Collections.USERS}/${data.id}`);
+      await updateDoc(userCollection, { ...data });
+      return data;
+    } catch (error) {
+      showError(error);
+    }
+  }
+
   return {
     signInWithEmailAndPassword,
     signOut,
     createNewUser,
+    getUserList,
+    updateUserInfo,
+    deleteUser,
   };
 }
