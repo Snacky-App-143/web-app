@@ -6,7 +6,11 @@
     >
       <q-card-section class="flex flex-center column fit no-wrap">
         <q-space></q-space>
-        <q-icon :name="icon" color="primary" size="6rem"></q-icon>
+        <q-icon
+          :name="icon"
+          color="primary"
+          :size="$q.screen.gt.xs ? '6rem' : '4rem'"
+        ></q-icon>
         <q-space></q-space>
         <div class="text-center text-body1 text-weight-medium">{{ title }}</div>
       </q-card-section>

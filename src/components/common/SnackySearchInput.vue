@@ -5,7 +5,7 @@
     dense
     clearable
     clear-icon="mdi-close"
-    class="snacky-search-input overflow-hidden"
+    class="overflow-hidden"
     @keyup.enter="search()"
     @clear="clearSearch"
   >
@@ -56,10 +56,6 @@ function clearSearch() {
 </script>
 
 <style lang="scss" scoped>
-.snacky-search-input {
-  min-width: 20rem;
-}
-
 .snacky-search-input__filters {
   margin-left: -0.75rem;
 }

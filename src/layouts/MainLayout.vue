@@ -11,7 +11,7 @@
         >
         </q-btn-group>
         <q-space></q-space>
-        <div :id="MainLayoutSlot.middleToolbar"></div>
+        <div :id="MainLayoutSlot.middleToolbar" class="col q-px-md"></div>
         <q-space></q-space>
         <q-btn-group
           :id="MainLayoutSlot.extraBtn"
@@ -22,9 +22,9 @@
         >
           <q-btn
             v-if="user"
-            class="order-last q-ml-md"
+            class="order-last"
             icon="mdi-logout"
-            @click="signOut"
+            @click="startSignOut"
           >
             <q-tooltip>
               {{ $t('main-layout.sign-out') }}
@@ -50,6 +50,7 @@
 
 <script lang="ts" setup>
 import useAuthentication from 'src/composables/useAuthentication';
+import useUtility from 'src/composables/useUtility';
 import { useAppStore } from 'src/stores/app';
 import { MainLayoutSlot } from 'src/types/layout/main-layout';
 import { onMounted } from 'vue';
@@ -57,6 +58,14 @@ import { onMounted } from 'vue';
 const appStore = useAppStore();
 const { setMainLayoutMounted } = appStore;
 const { signOut, user } = useAuthentication();
+const { confirm, t } = useUtility();
+
+const startSignOut = () => {
+  confirm({
+    color: 'negative',
+    message: t('main-layout.confirm-log-out'),
+  }).onOk(signOut);
+};
 
 onMounted(setMainLayoutMounted);
 </script>

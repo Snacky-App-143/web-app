@@ -156,5 +156,6 @@
   "confirmation-dialog.ok": "Yes",
   "user-manager-page.update-user.delete-confirmation": "This user will be delete forever. Are you sure?",
   "confirmation-dialog.cancel": "No",
-  "user-manager-page.update-user.delete-success": "User has been deleted"
+  "user-manager-page.update-user.delete-success": "User has been deleted",
+  "main-layout.confirm-log-out": "You will be logged out. Are you sure?"
 }
