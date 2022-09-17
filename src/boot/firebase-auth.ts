@@ -8,16 +8,16 @@ import { showError } from 'src/modules/helpers';
 
 export const firebaseAuth = getAuth(firebaseApp);
 
-export default boot(async ({ store, router, urlPath }) => {
+export default boot(async ({ store, router }) => {
   const { setUser } = useAuthenticationStore(store);
   const { setAuthLoading } = useAppStore(store);
-
   onAuthStateChanged(
     firebaseAuth,
     async (user) => {
       setUser(user);
+      const route = router.currentRoute.value;
 
-      if (user && urlPath.includes('/login')) {
+      if (user && route.name === RouteNames.loginPage) {
         await router.push({ name: RouteNames.homePage });
       } else if (!user) {
         await router.push({ name: RouteNames.loginPage });
