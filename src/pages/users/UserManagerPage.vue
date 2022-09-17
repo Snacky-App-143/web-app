@@ -13,7 +13,7 @@
     <q-pull-to-refresh @refresh="refresh">
       <div class="row q-col-gutter-md q-pa-sm">
         <div
-          v-for="user in users"
+          v-for="user in filteredUsers"
           :key="user.id"
           class="col-12 col-sm-6 col-md-4"
         >
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from 'src/stores/app';
 import { MainLayoutSlot } from 'src/types/layout/main-layout';
@@ -72,6 +72,17 @@ const isCreateNewUserVisible = ref(false);
 const isUpdateUserVisible = ref(false);
 const selectedUser = ref<FirestoreSnackyUser>();
 const users = ref<FirestoreSnackyUser[]>([]);
+
+const filteredUsers = computed(() =>
+  users.value.filter(
+    ({ firstName, lastName, phoneNumber, email, passportId }) =>
+      firstName.toLocaleLowerCase().includes(searchKey.value) ||
+      lastName.toLocaleLowerCase().includes(searchKey.value) ||
+      phoneNumber.toLocaleLowerCase().includes(searchKey.value) ||
+      email.toLocaleLowerCase().includes(searchKey.value) ||
+      passportId.toLocaleLowerCase().includes(searchKey.value)
+  )
+);
 
 async function init() {
   users.value = (await getUserList()) ?? [];
