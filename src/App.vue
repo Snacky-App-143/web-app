@@ -22,9 +22,10 @@ const { t } = useUtility();
 
 const metaData = computed<MetaOptions>(() => ({
   title: t(pageTitle.value),
+  titleTemplate: (title) => `${title} - Snacky`,
 }));
 
-useMeta(metaData.value);
+useMeta(() => metaData.value);
 </script>
 
 <style lang="scss" scoped>
