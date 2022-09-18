@@ -4,3 +4,7 @@ export type Product = {
   productPrice: number;
   isProductActive: boolean;
 };
+
+export interface FirestoreProduct extends Product {
+  id: string;
+}

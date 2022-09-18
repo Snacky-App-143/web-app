@@ -1,11 +1,14 @@
 import {
+  addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   updateDoc,
 } from '@firebase/firestore';
 import { db } from 'src/boot/firebase';
+import { Product } from 'src/models/product.model';
 import {
   FirestoreSnackyUser,
   RegisterSnackyUserBody,
@@ -91,6 +94,36 @@ export default function () {
     }
   }
 
+  const createNewProduct = async (data: Product) => {
+    try {
+      const productCollection = collection(db, Collections.PRODUCTS);
+      const productRef = await addDoc(productCollection, data);
+
+      return {
+        id: productRef.id,
+        ...data,
+      };
+    } catch (error) {
+      showError(error);
+      return null;
+    }
+  };
+
+  const updateProduct = async (id: string, data: Partial<Product>) => {
+    try {
+      const productDoc = doc(db, `${Collections.PRODUCTS}/${id}`);
+      await updateDoc(productDoc, data);
+
+      return {
+        id,
+        ...(await getDoc(productDoc)).data(),
+      };
+    } catch (error) {
+      showError(error);
+      return null;
+    }
+  };
+
   return {
     signInWithEmailAndPassword,
     signOut,
@@ -98,5 +131,7 @@ export default function () {
     getUserList,
     updateUserInfo,
     deleteUser,
+    createNewProduct,
+    updateProduct,
   };
 }

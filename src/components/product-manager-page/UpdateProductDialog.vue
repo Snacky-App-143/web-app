@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-bind="$attrs" position="bottom">
     <ProductForm
-      :title="$t('product-manager-page.create-new-product.title')"
+      :title="$t('product-manager-page.update-product.title')"
       :is-loading="isLoading"
       @submit="submit"
       @close="toggle(false)"
@@ -11,28 +11,34 @@
 
 <script setup lang="ts">
 import useFirebaseServices from 'src/composables/useFirebaseServices';
-import { Product } from 'src/models/product.model';
+import { FirestoreProduct, Product } from 'src/models/product.model';
 import { ref } from 'vue';
 import ProductForm from './ProductForm.vue';
 
 interface Emits {
   (e: 'update:model-value', value: boolean): void;
-  (e: 'created'): void;
+  (e: 'updated'): void;
+}
+interface Props {
+  product: FirestoreProduct;
 }
 
+const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
-const { createNewProduct } = useFirebaseServices();
+
+const { updateProduct } = useFirebaseServices();
 
 const isLoading = ref(false);
 
-const toggle = (value: boolean) => {
+function toggle(value: boolean) {
   emit('update:model-value', value);
-};
+}
 
-const submit = async (data: Product) => {
-  const res = await createNewProduct(data);
+async function submit(data: Product) {
+  const res = await updateProduct(props.product.id, data);
+
   if (res) {
-    emit('created');
+    emit('updated');
   }
-};
+}
 </script>

@@ -7,7 +7,7 @@
       size="sm"
       @click="$emit('close')"
     ></q-icon>
-    <q-form @submit.prevent>
+    <q-form @submit.prevent="submit">
       <q-card-section class="text-h6 text-center q-pb-none">
         {{ title }}
       </q-card-section>
@@ -89,8 +89,8 @@ interface Emits {
   (e: 'submit', value: Product): void;
 }
 
-defineProps<Props>();
-defineEmits<Emits>();
+const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
 
 const {
   rules: { required, numeric },
@@ -109,6 +109,16 @@ const rules = computed(() => ({
 }));
 
 const v$ = useVuelidate(rules, form);
+
+const submit = () => {
+  emit('submit', form.value);
+};
+
+if (props.product) {
+  form.value = {
+    ...props.product,
+  };
+}
 </script>
 
 <style lang="scss" scoped>

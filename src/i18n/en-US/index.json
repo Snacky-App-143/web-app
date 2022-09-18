@@ -25,6 +25,7 @@
   "product-form.description.label": "Description",
   "product-manager-page.create-product-user.cta": "Save",
   "product-manager-page.create-new-product.title": "Create Product",
+  "product-manager-page.update-product.title": "Update Product",
   "validation-messages.email.required": "Please provide user's email.",
   "validation-messages.email.email": "User's email is not invalid.",
   "validation-messages.password.required": "Please provide user's password.",
