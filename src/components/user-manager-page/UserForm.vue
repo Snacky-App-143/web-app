@@ -193,10 +193,6 @@ const genderOptions = [
     label: t('user-form.gender.female.label'),
     value: UserGenders.FEMALE,
   },
-  {
-    label: t('user-form.gender.other.label'),
-    value: UserGenders.OTHER,
-  },
 ];
 const roleOptions = [
   {
@@ -221,7 +217,7 @@ const form = ref<FeRegisterSnackyUserBody>({
   dob: '',
   email: '',
   firstName: '',
-  gender: UserGenders.FEMALE,
+  gender: UserGenders.MALE,
   id: '',
   lastName: '',
   passportId: '',

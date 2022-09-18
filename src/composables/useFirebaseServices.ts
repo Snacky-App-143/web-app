@@ -1,4 +1,11 @@
-import { collection, doc, getDocs, updateDoc } from '@firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from '@firebase/firestore';
 import { db } from 'src/boot/firebase';
 import {
   FirestoreSnackyUser,
@@ -67,7 +74,7 @@ export default function () {
   async function getUserList() {
     try {
       const userCollection = collection(db, Collections.USERS);
-      return (await getDocs(userCollection)).docs.map(
+      return (await getDocs(query(userCollection))).docs.map(
         (doc) => doc.data() as FirestoreSnackyUser
       );
     } catch (error) {
