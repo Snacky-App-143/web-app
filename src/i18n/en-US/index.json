@@ -168,5 +168,7 @@
   "user-manager-page.update-user.delete-confirmation": "This user will be delete forever. Are you sure?",
   "confirmation-dialog.cancel": "No",
   "user-manager-page.update-user.delete-success": "User has been deleted",
-  "main-layout.confirm-log-out": "You will be logged out. Are you sure?"
+  "main-layout.confirm-log-out": "You will be logged out. Are you sure?",
+  "create-product-dialog.succeed": "Product has been created",
+  "update-product-dialog.succeed": "Product has been updated"
 }

@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import useFirebaseServices from 'src/composables/useFirebaseServices';
+import useUtility from 'src/composables/useUtility';
 import { FirestoreProduct, Product } from 'src/models/product.model';
 import { ref } from 'vue';
 import ProductForm from './ProductForm.vue';
@@ -27,6 +28,7 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const { updateProduct } = useFirebaseServices();
+const { successNotify, t } = useUtility();
 
 const isLoading = ref(false);
 
@@ -38,6 +40,9 @@ async function submit(data: Product) {
   const res = await updateProduct(props.product.id, data);
 
   if (res) {
+    successNotify({
+      message: t('update-product-dialog.succeed'),
+    });
     emit('updated');
   }
 }

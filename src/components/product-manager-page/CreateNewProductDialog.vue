@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import useFirebaseServices from 'src/composables/useFirebaseServices';
+import useUtility from 'src/composables/useUtility';
 import { Product } from 'src/models/product.model';
 import { ref } from 'vue';
 import ProductForm from './ProductForm.vue';
@@ -22,6 +23,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 const { createNewProduct } = useFirebaseServices();
+const { successNotify, t } = useUtility();
 
 const isLoading = ref(false);
 
@@ -32,6 +34,9 @@ const toggle = (value: boolean) => {
 const submit = async (data: Product) => {
   const res = await createNewProduct(data);
   if (res) {
+    successNotify({
+      message: t('create-product-dialog.succeed'),
+    });
     emit('created');
   }
 };
