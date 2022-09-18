@@ -30,6 +30,7 @@
               :label="$t('product-form.description.label')"
               type="textarea"
               rows="auto"
+              :error="false"
             />
           </div>
           <div class="col-12">
@@ -47,6 +48,7 @@
             <!-- Status -->
             <q-toggle
               v-model="form.isProductActive"
+              error
               color="primary"
               :label="$t('product-form.status.label')"
             />
