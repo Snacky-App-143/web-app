@@ -8,7 +8,7 @@ import {
   updateDoc,
 } from '@firebase/firestore';
 import { db } from 'src/boot/firebase';
-import { Product } from 'src/models/product.model';
+import { FirestoreProduct, Product } from 'src/models/product.model';
 import {
   FirestoreSnackyUser,
   RegisterSnackyUserBody,
@@ -94,6 +94,22 @@ export default function () {
     }
   }
 
+  async function getProductList() {
+    try {
+      const productCollection = collection(db, Collections.PRODUCTS);
+      return (await getDocs(query(productCollection))).docs.map(
+        (doc) =>
+          ({
+            id: doc.id,
+            ...doc.data(),
+          } as FirestoreProduct)
+      );
+    } catch (error) {
+      showError(error);
+      return null;
+    }
+  }
+
   const createNewProduct = async (data: Product) => {
     try {
       const productCollection = collection(db, Collections.PRODUCTS);
@@ -133,5 +149,6 @@ export default function () {
     deleteUser,
     createNewProduct,
     updateProduct,
+    getProductList,
   };
 }

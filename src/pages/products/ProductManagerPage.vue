@@ -19,7 +19,7 @@
       />
     </q-page-sticky>
 
-    <CreateNewProductDialog v-model="isCreateProductVisible" />
+    <CreateNewProductDialog v-model="isCreateProductVisible" @created="init" />
   </q-page>
 </template>
 
@@ -31,8 +31,10 @@ import { ref } from 'vue';
 import { useAppStore } from 'src/stores/app';
 import { storeToRefs } from 'pinia';
 import CreateNewProductDialog from 'src/components/product-manager-page/CreateNewProductDialog.vue';
+import useFirebaseServices from 'src/composables/useFirebaseServices';
 
 const appStore = useAppStore();
+const { getProductList } = useFirebaseServices();
 const { setPageTitle } = appStore;
 
 const { mainLayoutMounted } = storeToRefs(appStore);
@@ -40,5 +42,10 @@ const { mainLayoutMounted } = storeToRefs(appStore);
 const searchKey = ref('');
 const isCreateProductVisible = ref(false);
 
+function init() {
+  getProductList();
+}
+
 setPageTitle('page-title.product-manager');
+init();
 </script>
