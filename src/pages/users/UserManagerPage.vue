@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page padding>
     <template v-if="mainLayoutMounted">
       <Teleport :to="`#${MainLayoutSlot.middleToolbar}`">
         <SnackySearchInput v-model="searchKey" />
@@ -11,7 +11,7 @@
     </template>
 
     <q-pull-to-refresh @refresh="refresh">
-      <div class="row q-col-gutter-md q-pa-sm">
+      <div class="row q-col-gutter-md">
         <div
           v-for="user in filteredUsers"
           :key="user.id"

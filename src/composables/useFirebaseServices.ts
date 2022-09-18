@@ -4,7 +4,6 @@ import {
   getDocs,
   query,
   updateDoc,
-  where,
 } from '@firebase/firestore';
 import { db } from 'src/boot/firebase';
 import {

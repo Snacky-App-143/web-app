@@ -21,6 +21,11 @@ const routes: RouteRecordRaw[] = [
         name: RouteNames.usersPage,
         component: () => import('pages/users/UserManagerPage.vue'),
       },
+      {
+        path: '/product-manager',
+        name: RouteNames.productsPage,
+        component: () => import('pages/products/ProductManagerPage.vue'),
+      },
     ],
   },
 
