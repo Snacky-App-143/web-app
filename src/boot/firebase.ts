@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import { boot } from 'quasar/wrappers';
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -14,5 +15,16 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+
+export default boot(() => {
+  // Connect to emulator on local
+  if (process.env.IS_EMULATOR_ENABLE) {
+    connectFirestoreEmulator(
+      db,
+      process.env.FIRESTORE_EMULATOR_HOST,
+      process.env.FIRESTORE_EMULATOR_PORT
+    );
+  }
+});
 
 export { db, firebaseApp };

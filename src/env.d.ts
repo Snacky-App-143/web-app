@@ -13,5 +13,9 @@ declare namespace NodeJS {
     FIREBASE_APP_ID: string;
     FIREBASE_MEASUREMENT_ID: string;
     API_ENDPOINT: string;
+    FIRESTORE_EMULATOR_HOST: string;
+    FIRESTORE_EMULATOR_PORT: number;
+    FIREBASE_AUTH_ENDPOINT: string;
+    IS_EMULATOR_ENABLE: string;
   }
 }
