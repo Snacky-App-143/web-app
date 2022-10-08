@@ -1,7 +1,9 @@
 {
   "page-title.home-page": "Home",
+  "page-title.gallery": "Gallery",
   "navigation-item.user-manager": "Users",
   "navigation-item.products": "Products",
+  "navigation-item.gallery": "Gallery",
   "page-title.product-manager": "Product Manager",
   "page-title.user-manager": "User Manager",
   "main-layout.sign-out": "Sign out",
@@ -170,5 +172,6 @@
   "user-manager-page.update-user.delete-success": "User has been deleted",
   "main-layout.confirm-log-out": "You will be logged out. Are you sure?",
   "create-product-dialog.succeed": "Product has been created",
-  "update-product-dialog.succeed": "Product has been updated"
+  "update-product-dialog.succeed": "Product has been updated",
+  "gallery.drop-to-upload": "Drop the files to start uploading"
 }

@@ -1,6 +1,16 @@
 import { initializeApp } from 'firebase/app';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import {
+  connectFirestoreEmulator,
+  Firestore,
+  getFirestore,
+} from 'firebase/firestore';
 import { boot } from 'quasar/wrappers';
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $db: Firestore;
+  }
+}
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -16,7 +26,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-export default boot(() => {
+export default boot(({ app }) => {
   // Connect to emulator on local
   if (process.env.IS_EMULATOR_ENABLE) {
     connectFirestoreEmulator(
@@ -25,6 +35,8 @@ export default boot(() => {
       process.env.FIRESTORE_EMULATOR_PORT
     );
   }
+
+  app.config.globalProperties.$db = db;
 });
 
 export { db, firebaseApp };

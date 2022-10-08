@@ -3,4 +3,5 @@ export enum RouteNames {
   loginPage = 'login-page',
   usersPage = 'user-manager',
   productsPage = 'product-manager',
+  galleryPage = 'gallery',
 }

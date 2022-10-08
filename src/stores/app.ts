@@ -18,6 +18,11 @@ export const useAppStore = defineStore('app', () => {
       title: 'navigation-item.products',
       to: { name: RouteNames.productsPage },
     },
+    {
+      icon: 'mdi-folder-multiple-image',
+      title: 'navigation-item.gallery',
+      to: { name: RouteNames.galleryPage },
+    },
   ]);
 
   function setAuthLoading(value: boolean) {

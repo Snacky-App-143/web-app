@@ -17,5 +17,7 @@ declare namespace NodeJS {
     FIRESTORE_EMULATOR_PORT: number;
     FIREBASE_AUTH_ENDPOINT: string;
     IS_EMULATOR_ENABLE: string;
+    STORAGE_EMULATOR_HOST: string;
+    STORAGE_EMULATOR_PORT: number;
   }
 }

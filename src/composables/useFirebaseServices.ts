@@ -7,12 +7,21 @@ import {
   query,
   updateDoc,
 } from '@firebase/firestore';
+import {
+  ref,
+  StorageReference,
+  uploadBytes,
+  uploadBytesResumable,
+  uploadString,
+} from '@firebase/storage';
 import { db } from 'src/boot/firebase';
+import { firebaseStorage } from 'src/boot/firebase-storage';
 import { FirestoreProduct, Product } from 'src/models/product.model';
 import {
   FirestoreSnackyUser,
   RegisterSnackyUserBody,
 } from 'src/models/user.model';
+import { StorageFolder } from 'src/types/firebase-storage/storage';
 import { Collections } from 'src/types/firestore/Collections';
 import useApiServices from './useApiServices';
 import useUtility from './useUtility';
@@ -20,6 +29,7 @@ import useUtility from './useUtility';
 export default function () {
   const { showError } = useUtility();
   const { createNewUserApi, deleteUserApi } = useApiServices();
+  const storageRef = ref(firebaseStorage, StorageFolder.base);
 
   async function signInWithEmailAndPassword(email: string, password: string) {
     if (!import.meta.env.SSR) {
@@ -140,7 +150,44 @@ export default function () {
     }
   };
 
+  // Upload a file to storage
+  function uploadFile(
+    item: File | Uint8Array | Blob | string,
+    path: string,
+    storage?: StorageReference
+  ) {
+    try {
+      const fileRef = ref(storage || storageRef, path);
+
+      if (typeof item === 'string') {
+        return uploadString(fileRef, item);
+      } else {
+        return uploadBytes(fileRef, item);
+      }
+    } catch (error) {
+      showError(error);
+      return null;
+    }
+  }
+
+  // Upload a resumable file
+  function uploadResumableFile(
+    item: File | Uint8Array | Blob,
+    path: string,
+    storage?: StorageReference
+  ) {
+    try {
+      const fileRef = ref(storage || storageRef, path);
+      return uploadBytesResumable(fileRef, item);
+    } catch (error) {
+      showError(error);
+      return null;
+    }
+  }
+
   return {
+    storageRef,
+
     signInWithEmailAndPassword,
     signOut,
     createNewUser,
@@ -150,5 +197,7 @@ export default function () {
     createNewProduct,
     updateProduct,
     getProductList,
+    uploadFile,
+    uploadResumableFile,
   };
 }

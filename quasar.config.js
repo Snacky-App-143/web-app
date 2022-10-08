@@ -44,6 +44,7 @@ module.exports = configure(function (/* ctx */) {
         path: 'gg-analytics',
         server: false,
       },
+      'firebase-storage',
       'utilities'
     ],
 
@@ -95,7 +96,7 @@ module.exports = configure(function (/* ctx */) {
       vitePlugins: [
         ['@intlify/vite-plugin-vue-i18n', {
           // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
-          compositionOnly: false,
+          compositionOnly: true,
 
           // you need to set i18n resource including paths !
           include: path.resolve(__dirname, './src/i18n/**')
