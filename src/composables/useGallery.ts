@@ -24,6 +24,10 @@ const isUploadCardVisible = ref(false);
 const galleryItems = ref<string[]>([]);
 const isItemListVisible = ref(true);
 
+const fileToUploadId = computed(() =>
+  filesToUpload.value.find(({ completed }) => !completed)
+);
+
 export default function () {
   const { getStorageFiles, getStorageRef } = useFirebaseServices();
 
@@ -43,7 +47,7 @@ export default function () {
   );
 
   function startUploadProcess(files: File[] | null) {
-    if (files) {
+    if (files && files.length) {
       filesToUpload.value = files.map((file) => ({
         id: uid(),
         file,
@@ -74,6 +78,7 @@ export default function () {
     isUploadCardVisible,
     galleryItems,
     isItemListVisible,
+    fileToUploadId,
 
     startUploadProcess,
     getAllGalleryItems,

@@ -46,6 +46,8 @@
           v-for="(item, index) in filesToUpload"
           :key="index"
           :item="item"
+          :upload-id="fileToUploadId?.id || ''"
+          @update:item="updateItemProgress($event, index)"
           @cancel-upload="cancelUpload(index)"
         />
       </q-list>
@@ -54,9 +56,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import useGallery, { UploadSteps } from 'src/composables/useGallery';
-import useSingleImageUpload from 'src/composables/useSingleImageUpload';
+import useGallery, {
+  UploadFile,
+  UploadSteps,
+} from 'src/composables/useGallery';
 import UploadItem from 'components/gallery/UploadItem.vue';
 import { useRoute } from 'vue-router';
 import { RouteNames } from 'src/router/RouteNames';
@@ -64,20 +67,15 @@ import { RouteNames } from 'src/router/RouteNames';
 const emit = defineEmits(['close']);
 
 const route = useRoute();
-const { uploadResumableImage, uploadProgress, uploadedBytes } =
-  useSingleImageUpload();
+
 const {
   filesToUpload,
   totalProgress,
   isUploadCardVisible,
   morphGroupModel,
   isItemListVisible,
+  fileToUploadId,
 } = useGallery();
-
-const uploadIndex = computed(() =>
-  filesToUpload.value.findIndex(({ completed }) => completed === false)
-);
-const fileToUpload = computed(() => filesToUpload.value[uploadIndex.value]);
 
 function closeUploadingCard() {
   emit('close');
@@ -91,34 +89,18 @@ function closeUploadingCard() {
 function cancelUpload(index: number) {
   filesToUpload.value[index].uploadTask?.cancel();
   filesToUpload.value.splice(index, 1);
+
+  if (!filesToUpload.value.length) {
+    closeUploadingCard();
+  }
 }
 
-watch(
-  () => uploadIndex.value,
-  (newValue, oldValue) => {
-    if (newValue > -1 && newValue !== oldValue) {
-      fileToUpload.value.uploadTask = uploadResumableImage(
-        fileToUpload.value.file,
-        fileToUpload.value.file.name
-      );
-
-      fileToUpload.value.isUploading = true;
-    }
-  }
-);
-
-watch(
-  () => uploadProgress.value,
-  (value) => {
-    fileToUpload.value.progress = value;
-    fileToUpload.value.uploadedBytes = uploadedBytes.value;
-
-    if (value === 100) {
-      fileToUpload.value.completed = true;
-      fileToUpload.value.isUploading = false;
-    }
-  }
-);
+function updateItemProgress(data: Partial<UploadFile>, index: number) {
+  filesToUpload.value[index] = {
+    ...filesToUpload.value[index],
+    ...data,
+  };
+}
 </script>
 
 <style lang="scss" scoped>

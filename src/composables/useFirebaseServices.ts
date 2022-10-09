@@ -8,7 +8,6 @@ import {
   updateDoc,
 } from '@firebase/firestore';
 import {
-  FirebaseStorage,
   listAll,
   ref,
   StorageReference,

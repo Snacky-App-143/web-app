@@ -86,7 +86,7 @@ const appStore = useAppStore();
 const { setMainLayoutMounted } = appStore;
 const { signOut, user } = useAuthentication();
 const { confirm, t } = useUtility();
-const { morphGroupModel, filesToUpload, isUploadCardVisible } = useGallery();
+const { morphGroupModel, isUploadCardVisible } = useGallery();
 
 const startSignOut = () => {
   confirm({

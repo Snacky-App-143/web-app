@@ -36,20 +36,66 @@
 
 <script setup lang="ts">
 import { useElementHover } from '@vueuse/core';
-import { UploadFile } from 'src/composables/useGallery';
-import { ref } from 'vue';
+import useGallery, { UploadFile } from 'src/composables/useGallery';
+import useSingleImageUpload from 'src/composables/useSingleImageUpload';
+import { ref, watch } from 'vue';
 
 type Props = {
   item: UploadFile;
+  uploadId: string;
 };
 
-defineProps<Props>();
-const emit = defineEmits(['cancel-upload']);
+type Emits = {
+  (event: 'cancel-upload'): void;
+  (event: 'update:item', value: Partial<UploadFile>): void;
+  (event: 'next'): void;
+};
+
+const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
+
+const { filesToUpload } = useGallery();
+const { uploadResumableImage, uploadProgress } = useSingleImageUpload();
 
 const uploadItemRef = ref<HTMLElement>();
 const isItemHovered = useElementHover(uploadItemRef);
 
 function cancelUpload() {
   emit('cancel-upload');
+  emit('next');
 }
+
+watch(
+  () => props.uploadId,
+  (value) => {
+    const index = filesToUpload.value.findIndex(({ id }) => value === id);
+    if (index > -1 && filesToUpload.value[index].id === props.item.id) {
+      emit('update:item', {
+        uploadTask: uploadResumableImage(props.item.file, props.item.file.name),
+        isUploading: true,
+      });
+    }
+  },
+  {
+    immediate: true,
+  }
+);
+
+watch(
+  () => uploadProgress.value,
+  (value) => {
+    emit('update:item', {
+      progress: value,
+      uploadedBytes: props.item.uploadTask?.snapshot.bytesTransferred,
+    });
+
+    if (value === 100) {
+      emit('update:item', {
+        isUploading: false,
+        completed: true,
+      });
+      emit('next');
+    }
+  }
+);
 </script>
