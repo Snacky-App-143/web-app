@@ -6,10 +6,12 @@
         'q-pb-none': isItemListVisible,
       }"
     >
-      <div v-if="totalProgress === 100">Uploaded</div>
+      <div v-if="totalProgress === 100">
+        {{ $t('gallery.uploading-card.uploaded') }}
+      </div>
       <template v-else>
         <q-spinner color="white" size="1.2rem" class="q-mr-sm" />
-        <div>Uploading...</div>
+        <div>{{ $t('gallery.uploading-card.uploading') }}...</div>
       </template>
       <q-space />
       <div class="text-weight-bold text-body2 q-ml-xl">
@@ -40,7 +42,8 @@
     <q-card-section v-show="isItemListVisible">
       <q-list
         v-if="morphGroupModel === UploadSteps.UPLOADING"
-        class="bg-white rounded-borders"
+        class="uploading-card__item-list overflow-auto bg-white rounded-borders"
+        separator
       >
         <UploadItem
           v-for="(item, index) in filesToUpload"
@@ -110,5 +113,9 @@ function updateItemProgress(data: Partial<UploadFile>, index: number) {
 
 .uploading-card__toggle-button {
   transition: all 200ms ease-in-out;
+}
+
+.uploading-card__item-list {
+  max-height: 30vh;
 }
 </style>

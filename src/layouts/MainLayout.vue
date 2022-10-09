@@ -40,12 +40,20 @@
       position="bottom-right"
       :offset="[18, 18]"
     >
+      <input
+        ref="uploadInputRef"
+        class="hidden"
+        type="file"
+        accept="image/*"
+        multiple
+        @change="uploadFiles"
+      />
       <q-btn
         v-morph:addButton:uploadSteps:300.resize="morphGroupModel"
         fab
         icon="add"
         color="primary"
-        @click="morphGroupModel = UploadSteps.UPLOADING"
+        @click="uploadInputRef?.click()"
       />
       <div
         v-morph:uploading:uploadSteps:300.resize="morphGroupModel"
@@ -79,20 +87,36 @@ import useGallery, { UploadSteps } from 'src/composables/useGallery';
 import useUtility from 'src/composables/useUtility';
 import { useAppStore } from 'src/stores/app';
 import { MainLayoutSlot } from 'src/types/layout/main-layout';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import UploadingCard from 'src/components/gallery/UploadingCard.vue';
 
 const appStore = useAppStore();
 const { setMainLayoutMounted } = appStore;
 const { signOut, user } = useAuthentication();
 const { confirm, t } = useUtility();
-const { morphGroupModel, isUploadCardVisible } = useGallery();
+const { morphGroupModel, isUploadCardVisible, startUploadProcess } =
+  useGallery();
+
+const uploadInputRef = ref<HTMLInputElement>();
 
 const startSignOut = () => {
   confirm({
     color: 'negative',
     message: t('main-layout.confirm-log-out'),
   }).onOk(signOut);
+};
+
+const uploadFiles = (event: Event) => {
+  const inputFileList = (<HTMLInputElement>event.target).files;
+  if (inputFileList) {
+    const files: File[] = [];
+
+    for (let index = 0; index < inputFileList.length; index++) {
+      files.push(inputFileList[index]);
+    }
+
+    startUploadProcess(files);
+  }
 };
 
 onMounted(setMainLayoutMounted);

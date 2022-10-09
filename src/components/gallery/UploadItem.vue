@@ -1,5 +1,5 @@
 <template>
-  <q-item ref="uploadItemRef" class="text-black">
+  <q-item ref="uploadItemRef" :id="`upload-item-${item.id}`" class="text-black">
     <q-item-section>
       <q-item-label lines="1">
         {{ item.file.name }}
@@ -25,7 +25,7 @@
         <q-icon
           v-if="isItemHovered"
           name="mdi-close"
-          size=".8rem"
+          size=".7rem"
           class="cursor-pointer"
           @click="cancelUpload"
         ></q-icon>
@@ -38,6 +38,7 @@
 import { useElementHover } from '@vueuse/core';
 import useGallery, { UploadFile } from 'src/composables/useGallery';
 import useSingleImageUpload from 'src/composables/useSingleImageUpload';
+import useUtility from 'src/composables/useUtility';
 import { ref, watch } from 'vue';
 
 type Props = {
@@ -56,6 +57,7 @@ const emit = defineEmits<Emits>();
 
 const { filesToUpload } = useGallery();
 const { uploadResumableImage, uploadProgress } = useSingleImageUpload();
+const { scrollToElement } = useUtility();
 
 const uploadItemRef = ref<HTMLElement>();
 const isItemHovered = useElementHover(uploadItemRef);
@@ -95,6 +97,21 @@ watch(
         completed: true,
       });
       emit('next');
+
+      const uploadingContainer = document
+        .getElementsByClassName('uploading-card__item-list')
+        .item(0);
+      const uploadItemElement = document.getElementById(
+        `upload-item-${props.item.id}`
+      );
+
+      if (uploadItemElement && uploadingContainer) {
+        scrollToElement(
+          uploadingContainer,
+          uploadItemElement.offsetTop - 16,
+          100
+        );
+      }
     }
   }
 );

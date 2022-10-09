@@ -173,5 +173,8 @@
   "main-layout.confirm-log-out": "You will be logged out. Are you sure?",
   "create-product-dialog.succeed": "Product has been created",
   "update-product-dialog.succeed": "Product has been updated",
-  "gallery.drop-to-upload": "Drop the files to start uploading"
+  "gallery.drop-to-upload": "Drop the files to start uploading",
+  "gallery.not-image-files": "Please only upload image files",
+  "gallery.uploading-card.uploaded": "Uploaded",
+  "gallery.uploading-card.uploading": "Uploading"
 }

@@ -5,6 +5,7 @@ import { Notify, QNotifyCreateOptions } from 'quasar';
 import { dialog, notify, showError } from 'src/modules/helpers';
 import { useI18n } from 'vue-i18n';
 import prettyBytes from 'pretty-bytes';
+import { scroll } from 'quasar';
 
 type ConfirmDialogOptions = {
   title: string;
@@ -16,6 +17,16 @@ type ConfirmDialogOptions = {
 
 export default function () {
   const { t } = useI18n();
+  const { getScrollTarget, setVerticalScrollPosition } = scroll;
+
+  function scrollToElement(
+    scrollTarget: Element,
+    offset: number,
+    duration = 100
+  ) {
+    const target = getScrollTarget(scrollTarget);
+    setVerticalScrollPosition(target, offset, duration);
+  }
 
   function successNotify(opts: QNotifyCreateOptions) {
     Notify.create({
@@ -71,5 +82,6 @@ export default function () {
     t,
     confirm,
     prettyBytes,
+    scrollToElement,
   };
 }
