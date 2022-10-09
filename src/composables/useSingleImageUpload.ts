@@ -18,6 +18,10 @@ export default function () {
       : 0
   );
 
+  const uploadedBytes = computed(() =>
+    uploadTaskSnapshot.value ? uploadTaskSnapshot.value.bytesTransferred : 0
+  );
+
   function uploadImage(image: string | File | Blob | Uint8Array, path: string) {
     return uploadFile(image, path);
   }
@@ -35,10 +39,13 @@ export default function () {
         uploadedFileRef.value = uploadTaskSnapshot.value?.ref;
       }
     );
+
+    return task;
   }
 
   return {
     uploadProgress,
+    uploadedBytes,
 
     uploadImage,
     uploadResumableImage,

@@ -29,7 +29,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/gallery',
         name: RouteNames.galleryPage,
-        component: () => import('pages/gallery/IndexPage.vue'),
+        component: () => import('src/pages/gallery/GalleryPage.vue'),
       },
     ],
   },

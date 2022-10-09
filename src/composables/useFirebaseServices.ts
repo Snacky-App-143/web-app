@@ -8,6 +8,8 @@ import {
   updateDoc,
 } from '@firebase/firestore';
 import {
+  FirebaseStorage,
+  listAll,
   ref,
   StorageReference,
   uploadBytes,
@@ -185,6 +187,15 @@ export default function () {
     }
   }
 
+  // Get storage files
+  function getStorageFiles(storage?: StorageReference) {
+    return listAll(storage || storageRef);
+  }
+
+  function getStorageRef(path: string) {
+    return ref(firebaseStorage, path);
+  }
+
   return {
     storageRef,
 
@@ -199,5 +210,7 @@ export default function () {
     getProductList,
     uploadFile,
     uploadResumableFile,
+    getStorageFiles,
+    getStorageRef,
   };
 }

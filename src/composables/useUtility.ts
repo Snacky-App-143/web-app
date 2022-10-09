@@ -4,6 +4,7 @@ import { FirebaseError } from '@firebase/util';
 import { Notify, QNotifyCreateOptions } from 'quasar';
 import { dialog, notify, showError } from 'src/modules/helpers';
 import { useI18n } from 'vue-i18n';
+import prettyBytes from 'pretty-bytes';
 
 type ConfirmDialogOptions = {
   title: string;
@@ -69,5 +70,6 @@ export default function () {
     successNotify,
     t,
     confirm,
+    prettyBytes,
   };
 }
