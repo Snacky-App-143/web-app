@@ -30,6 +30,7 @@
         <q-space></q-space>
 
         <q-btn-group stretch flat color="white">
+          <q-btn icon="mdi-delete" @click="startDeleteImages"></q-btn>
           <q-btn
             icon="mdi-close"
             @click="
@@ -43,7 +44,7 @@
 
     <div class="row q-col-gutter-xs">
       <div
-        v-for="(item, index) in galleryItems"
+        v-for="(item, index) in filteredImages"
         :key="index"
         class="col-4 col-md-3 col-lg-2"
       >
@@ -67,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onUnmounted, ref } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { RouteNames } from 'src/router/RouteNames';
 import { useAppStore } from 'src/stores/app';
@@ -78,7 +79,10 @@ import DropToUpload from 'components/gallery/DropToUpload.vue';
 import useGallery from 'src/composables/useGallery';
 import GalleryItem from 'src/components/gallery/GalleryItem.vue';
 import { StorageReference } from '@firebase/storage';
+import useUtility from 'src/composables/useUtility';
+import { AppEvents } from 'src/types/event-bus';
 
+const { bus, confirm, t, successNotify } = useUtility();
 const appStore = useAppStore();
 const {
   startUploadProcess,
@@ -86,6 +90,7 @@ const {
   totalProgress,
   totalSizes,
   getAllGalleryItems,
+  deleteGalleryItems,
   galleryItems,
 } = useGallery();
 const { setPageTitle } = appStore;
@@ -95,6 +100,12 @@ const searchKey = ref('');
 const dropZoneRef = ref<HTMLDivElement>();
 const isSelectEnabled = ref(false);
 const selectedImages = ref<StorageReference[]>([]);
+
+const filteredImages = computed(() =>
+  galleryItems.value.filter(
+    ({ name }) => !searchKey.value || name.includes(searchKey.value)
+  )
+);
 
 const { isOverDropZone } = useDropZone(dropZoneRef, startUploadProcess);
 
@@ -111,9 +122,28 @@ const selectImage = (index: number) => {
   selectedImages.value.push(galleryItems.value[index]);
 };
 
+const startDeleteImages = () => {
+  confirm({
+    message: t('gallery.confirm-deletion'),
+    ok: t('gallery.confirm-deletion.ok'),
+    cancel: t('gallery.confirm-deletion.cancel'),
+  }).onOk(async () => {
+    await deleteGalleryItems(selectedImages.value);
+    getAllGalleryItems();
+    selectedImages.value = [];
+    successNotify({
+      message: t('gallery.confirm-deletion.success'),
+    });
+  });
+};
+
 setPageTitle('page-title.gallery');
 isUploadCardVisible.value = true;
 getAllGalleryItems();
+
+bus.on(AppEvents.RELOAD_GALLERY, () => {
+  getAllGalleryItems();
+});
 
 onUnmounted(() => {
   if (totalProgress.value === 100 || totalSizes.value === 0) {

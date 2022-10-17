@@ -176,5 +176,9 @@
   "gallery.drop-to-upload": "Drop the files to start uploading",
   "gallery.not-image-files": "Please only upload image files",
   "gallery.uploading-card.uploaded": "Uploaded",
-  "gallery.uploading-card.uploading": "Uploading"
+  "gallery.uploading-card.uploading": "Uploading",
+  "gallery.confirm-deletion": "Are you sure?",
+  "gallery.confirm-deletion.ok": "Delete",
+  "gallery.confirm-deletion.cancel": "Cancel",
+  "gallery.confirm-deletion.success": "Gallery items have been deleted"
 }

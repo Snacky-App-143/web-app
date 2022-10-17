@@ -3,6 +3,7 @@
     :src="src"
     :ratio="1"
     fit="cover"
+    :loading="'lazy'"
     @contextmenu.prevent="
       isSelectEnabled ? null : $emit('select-image-by-hold')
     "
@@ -21,7 +22,10 @@
         ></q-checkbox>
       </span>
     </transition>
-    <template v-slot:loading>
+    <template #loading>
+      <q-skeleton type="rect" class="fit"></q-skeleton>
+    </template>
+    <template #error>
       <q-skeleton type="rect" class="fit"></q-skeleton>
     </template>
   </q-img>

@@ -6,6 +6,7 @@ import { dialog, notify, showError } from 'src/modules/helpers';
 import { useI18n } from 'vue-i18n';
 import prettyBytes from 'pretty-bytes';
 import { scroll } from 'quasar';
+import useEventBus from './useEventBus';
 
 type ConfirmDialogOptions = {
   title: string;
@@ -17,6 +18,7 @@ type ConfirmDialogOptions = {
 
 export default function () {
   const { t } = useI18n();
+  const { bus } = useEventBus();
   const { getScrollTarget, setVerticalScrollPosition } = scroll;
 
   function scrollToElement(
@@ -83,5 +85,6 @@ export default function () {
     confirm,
     prettyBytes,
     scrollToElement,
+    bus,
   };
 }

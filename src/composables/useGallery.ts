@@ -1,6 +1,7 @@
-import { StorageReference, UploadTask } from '@firebase/storage';
+import { deleteObject, StorageReference, UploadTask } from '@firebase/storage';
 import { uid } from 'quasar';
-import { computed, ref } from 'vue';
+import { AppEvents } from 'src/types/event-bus';
+import { computed, ref, watch } from 'vue';
 import useFirebaseServices from './useFirebaseServices';
 import useUtility from './useUtility';
 
@@ -30,8 +31,8 @@ const fileToUploadId = computed(() =>
 );
 
 export default function () {
-  const { getStorageFiles } = useFirebaseServices();
-  const { notify, t } = useUtility();
+  const { getStorageFiles, getStorageRef } = useFirebaseServices();
+  const { notify, t, bus } = useUtility();
 
   const totalSizes = computed(() =>
     filesToUpload.value
@@ -84,6 +85,21 @@ export default function () {
     galleryItems.value = result.items;
   }
 
+  async function deleteGalleryItems(items: StorageReference[]) {
+    return Promise.all(
+      items.map((item) => deleteObject(getStorageRef(item.fullPath)))
+    );
+  }
+
+  watch(
+    () => totalProgress.value,
+    (value) => {
+      if (value === 100) {
+        bus?.emit(AppEvents.RELOAD_GALLERY);
+      }
+    }
+  );
+
   return {
     filesToUpload,
     morphGroupModel,
@@ -93,6 +109,7 @@ export default function () {
     galleryItems,
     isItemListVisible,
     fileToUploadId,
+    deleteGalleryItems,
 
     startUploadProcess,
     getAllGalleryItems,
