@@ -3,6 +3,7 @@ export type Product = {
   productDescription?: string;
   productPrice: number;
   isProductActive: boolean;
+  productImages: string[];
 };
 
 export interface FirestoreProduct extends Product {

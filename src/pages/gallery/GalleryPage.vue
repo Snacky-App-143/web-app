@@ -123,10 +123,15 @@ const selectImage = (index: number) => {
 };
 
 const startDeleteImages = () => {
+  if (!selectedImages.value.length) {
+    return;
+  }
+
   confirm({
     message: t('gallery.confirm-deletion'),
     ok: t('gallery.confirm-deletion.ok'),
     cancel: t('gallery.confirm-deletion.cancel'),
+    color: 'negative',
   }).onOk(async () => {
     await deleteGalleryItems(selectedImages.value);
     getAllGalleryItems();

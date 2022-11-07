@@ -44,6 +44,12 @@
               @blur="v$.productPrice.$touch"
             />
           </div>
+          
+          <!-- Product images -->
+          <div class="col-12">
+            
+          </div>
+
           <div class="col-12">
             <!-- Status -->
             <q-toggle
@@ -101,6 +107,7 @@ const form = ref<Product>({
   productName: '',
   productPrice: 0,
   productDescription: '',
+  productImages: [],
 });
 
 const rules = computed(() => ({
